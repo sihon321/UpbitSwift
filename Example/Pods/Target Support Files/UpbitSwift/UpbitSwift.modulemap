@@ -1,0 +1,6 @@
+framework module UpbitSwift {
+  umbrella header "UpbitSwift-umbrella.h"
+
+  export *
+  module * { export * }
+}
