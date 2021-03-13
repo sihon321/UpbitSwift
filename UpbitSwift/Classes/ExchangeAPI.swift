@@ -95,3 +95,7 @@ extension InfoAPI {
         }
     }
 }
+
+public enum UpbitMethod {
+    case get, delete
+}

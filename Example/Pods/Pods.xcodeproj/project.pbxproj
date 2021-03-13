@@ -90,6 +90,8 @@
 		8E8178BB25FCCBAA00246816 /* UpbitTradeTicks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8178BA25FCCBAA00246816 /* UpbitTradeTicks.swift */; };
 		8E8178C825FCD31C00246816 /* UpbitTickers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8178C725FCD31C00246816 /* UpbitTickers.swift */; };
 		8E8178D525FCD5EE00246816 /* UpbitOrderBooks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8178D425FCD5EE00246816 /* UpbitOrderBooks.swift */; };
+		8E8178E225FCDE4000246816 /* UpbitOrdersChance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8178E125FCDE4000246816 /* UpbitOrdersChance.swift */; };
+		8E8178EF25FCE7B600246816 /* UpbitOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8178EE25FCE7B600246816 /* UpbitOrder.swift */; };
 		911448B2EDA2FF880108F77642797A88 /* ResponseSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AE8265D7A026C4A9B6AEFC10149026 /* ResponseSerialization.swift */; };
 		91680E3C5BA44F8EF4FF55B1F1ABB6BA /* ValidateClaimsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90F753C0AFBF01C29E3A151BA92396A /* ValidateClaimsResult.swift */; };
 		91B837CE0DCD8EDB300FCDFFA1279162 /* HTTPHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD68336293DB320362824A5244213C8 /* HTTPHeaders.swift */; };
@@ -414,6 +416,8 @@
 		8E8178BA25FCCBAA00246816 /* UpbitTradeTicks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpbitTradeTicks.swift; sourceTree = "<group>"; };
 		8E8178C725FCD31C00246816 /* UpbitTickers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpbitTickers.swift; sourceTree = "<group>"; };
 		8E8178D425FCD5EE00246816 /* UpbitOrderBooks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpbitOrderBooks.swift; sourceTree = "<group>"; };
+		8E8178E125FCDE4000246816 /* UpbitOrdersChance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpbitOrdersChance.swift; sourceTree = "<group>"; };
+		8E8178EE25FCE7B600246816 /* UpbitOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpbitOrder.swift; sourceTree = "<group>"; };
 		8E914A2A82F1BB41BE06082D64D1CBD1 /* Alamofire-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-prefix.pch"; sourceTree = "<group>"; };
 		8FC547891CBBB7D547C8F5664C1AC85D /* BlueECC-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "BlueECC-Info.plist"; sourceTree = "<group>"; };
 		8FE97D8004E3B2FC9601B8DE8B2C8B7F /* BlueECC-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "BlueECC-umbrella.h"; sourceTree = "<group>"; };
@@ -780,6 +784,8 @@
 				8E8178BA25FCCBAA00246816 /* UpbitTradeTicks.swift */,
 				8E8178C725FCD31C00246816 /* UpbitTickers.swift */,
 				8E8178D425FCD5EE00246816 /* UpbitOrderBooks.swift */,
+				8E8178E125FCDE4000246816 /* UpbitOrdersChance.swift */,
+				8E8178EE25FCE7B600246816 /* UpbitOrder.swift */,
 			);
 			name = Model;
 			path = UpbitSwift/Classes/Model;
@@ -1554,10 +1560,12 @@
 				8E8178C825FCD31C00246816 /* UpbitTickers.swift in Sources */,
 				8E8178A025FCB8EC00246816 /* UpbitMarket.swift in Sources */,
 				14337130D0CD858D1426B0D78681C3E6 /* QuotationAPI.swift in Sources */,
+				8E8178EF25FCE7B600246816 /* UpbitOrder.swift in Sources */,
 				8E8178AE25FCB91D00246816 /* UpbitCandle.swift in Sources */,
 				8E8178D525FCD5EE00246816 /* UpbitOrderBooks.swift in Sources */,
 				3B7FC25D2E0FCEF4CD3CC2660B3CE018 /* UpbitAPI.swift in Sources */,
 				8E8178BB25FCCBAA00246816 /* UpbitTradeTicks.swift in Sources */,
+				8E8178E225FCDE4000246816 /* UpbitOrdersChance.swift in Sources */,
 				1D82F21A0EED96B249231C167D449225 /* UpbitSwift-dummy.m in Sources */,
 				8E8178A125FCB8EC00246816 /* UpbitAccount.swift in Sources */,
 				B98FE9D0B40A10A6B40CB86604F634C6 /* UpbitSwift.swift in Sources */,

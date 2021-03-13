@@ -96,6 +96,7 @@ open class UpbitSwift {
            let secret = secretKey.data(using: .utf8),
            let signedJWT = try? jwt.sign(using: .hs256(key: secret)) {
             let authenticationToken = "Bearer " + signedJWT
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue(authenticationToken, forHTTPHeaderField: "Authorization")
         }
         
@@ -134,7 +135,7 @@ open class UpbitSwift {
             headers.add(name: "Authorization", value: authenticationToken)
         }
         
-        AF.request(api.baseURL + api.path, method: .delete, headers: headers)
+        AF.request(api.baseURL + api.path, method: .delete, parameters: parameter, headers: headers)
             .responseData { response in
                 completion(response.data, response.error)
             }
@@ -209,7 +210,7 @@ extension UpbitSwift {
     }
     
     open func getOrderbooks(market ticker: [String],
-                            completion: @escaping(UpbitOrderBooks?) -> ()) {
+                            completion: @escaping (UpbitOrderBooks?) -> ()) {
         get(.quotation(.orderbook),
             query: ["markets": ticker.joined(separator: ",")]) { (data, error) in
             guard let data = data else {
@@ -217,6 +218,120 @@ extension UpbitSwift {
                 return
             }
             completion(try? UpbitOrderBooks(data: data))
+        }
+    }
+}
+
+// MARK: - ExchangeAPI - Asset
+extension UpbitSwift {
+    open func getAccounts(completion: @escaping (UpbitAccounts?) -> ()) {
+        get(.exchange(.asset(.allAccounts))) { (data, error) in
+            guard let data = data else {
+                completion(nil)
+                return
+            }
+            completion(try? UpbitAccounts(data: data))
+        }
+    }
+}
+
+// MARK: - ExchangeAPI - Exchange
+extension UpbitSwift {
+    open func getOrdersChance(market ticker: String,
+                              completion: @escaping (UpbitOrdersChance?) -> ()) {
+        get(.exchange(.order(.ordersChance)), query: ["market": ticker]) { (data, error) in
+            guard let data = data else {
+                completion(nil)
+                return
+            }
+            completion(try? UpbitOrdersChance(data: data))
+        }
+    }
+    
+    open func requestOrder(_ method: UpbitMethod,
+                           uuid: String,
+                           identifier: String = "",
+                           completion: @escaping (UpbitOrder?) -> ()) {
+        var parameter = ["uuid": uuid]
+        if identifier != "" {
+            parameter["identifier"] = identifier
+        }
+        
+        switch method {
+        case .get:
+            
+            get(.exchange(.order(.searchOrder)),
+                query: parameter) { (data, error) in
+                guard let data = data else {
+                    completion(nil)
+                    return
+                }
+                completion(try? UpbitOrder(data: data))
+            }
+        case .delete:
+            delete(.exchange(.order(.deleteOrder)),
+                   query: parameter) { (data, error) in
+                guard let data = data else {
+                    completion(nil)
+                    return
+                }
+                completion(try? UpbitOrder(data: data))
+            }
+        }
+    }
+    
+    open func getOrders(market ticker: String,
+                        state: String,
+                        states: [String] = [],
+                        uuids: [String],
+                        identifiers: [String] = [],
+                        page: Int = 1,
+                        limit: Int = 100,
+                        orderBy: String = "desc",
+                        completion: @escaping (UpbitOrders?) -> ()) {
+        var arrayParameter = ["uuids[]": uuids]
+        if states.isEmpty == false {
+            arrayParameter["states[]"] = states
+        }
+        if identifiers.isEmpty == false {
+            arrayParameter["identifiers[]"] = identifiers
+        }
+        get(.exchange(.order(.searchOrders)),
+            query: ["market": ticker,
+                    "state": state,
+                    "page": "\(page)",
+                    "limit": "\(limit)",
+                    "order_by": orderBy],
+            arrayQuery: arrayParameter) { (data, error) in
+            guard let data = data else {
+                completion(nil)
+                return
+            }
+            completion(try? UpbitOrders(data: data))
+        }
+    }
+    
+    open func order(market ticker: String,
+                    side: String,
+                    volume: String,
+                    price: String,
+                    orderType: String,
+                    identifier: String = "",
+                    completion: @escaping (UpbitOrder?) -> ()) {
+        var parameter = ["market": ticker,
+                         "side": side,
+                         "volume": volume,
+                         "price": price,
+                         "ord_type": orderType]
+        if identifier != "" {
+            parameter["identifier"] = identifier
+        }
+        post(.exchange(.order(.order)), body: parameter) { (data, error) in
+            guard let data = data else {
+                completion(nil)
+                return
+            }
+            completion(try? UpbitOrder(data: data))
         }
     }
 }
