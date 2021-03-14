@@ -145,13 +145,13 @@ open class UpbitSwift {
 // MARK: - QuotationAPI
 extension UpbitSwift {
     open func searchMarketAll(isDetails: Bool,
-                              completion: @escaping (UpbitMarkets?) -> ()) {
+                              completion: @escaping (UpbitMarkets?, Error?) -> ()) {
         get(.quotation(.marketAll)) { (data, error) in
             guard let data = data else {
-                completion(nil)
+                completion(nil, error)
                 return
             }
-            completion(try? UpbitMarkets(data: data))
+            completion(try? UpbitMarkets(data: data), error)
         }
     }
     
@@ -160,7 +160,7 @@ extension UpbitSwift {
                         to: String = "",
                         count: Int = 200,
                         convertingPriceUnit: String = "",
-                        completion: @escaping (UpbitCandles?) -> ()) {
+                        completion: @escaping (UpbitCandles?, Error?) -> ()) {
         var parameter = ["market": ticker, "to": to, "count": "\(count)"]
         if convertingPriceUnit != "" {
             parameter["convertingPriceUnit"] = convertingPriceUnit
@@ -168,10 +168,10 @@ extension UpbitSwift {
         get(.quotation(.candles(type)),
             query: parameter) { (data, error) in
             guard let data = data else {
-                completion(nil)
+                completion(nil, error)
                 return
             }
-            completion(try? UpbitCandles(data: data))
+            completion(try? UpbitCandles(data: data), error)
         }
     }
     
@@ -180,7 +180,7 @@ extension UpbitSwift {
                              count: Int = 1,
                              cursor: String = "",
                              daysAgo: Int = 0,
-                             completion: @escaping (UpbitTradeTicks?) -> ()) {
+                             completion: @escaping (UpbitTradeTicks?, Error?) -> ()) {
         var parameter = ["market": ticker,
                          "to": to,
                          "count": "\(count)",
@@ -190,47 +190,47 @@ extension UpbitSwift {
         }
         get(.quotation(.tradesTicks), query: parameter) { (data, error) in
             guard let data = data else {
-                completion(nil)
+                completion(nil, error)
                 return
             }
-            completion(try? UpbitTradeTicks(data: data))
+            completion(try? UpbitTradeTicks(data: data), error)
         }
     }
     
     open func getTickers(market ticker: [String],
-                        completion: @escaping(UpbitTickers?) -> ()) {
+                        completion: @escaping(UpbitTickers?, Error?) -> ()) {
         get(.quotation(.ticker),
             query: ["markets": ticker.joined(separator: ",")]) { (data, error) in
             guard let data = data else {
-                completion(nil)
+                completion(nil, error)
                 return
             }
-            completion(try? UpbitTickers(data: data))
+            completion(try? UpbitTickers(data: data), error)
         }
     }
     
     open func getOrderbooks(market ticker: [String],
-                            completion: @escaping (UpbitOrderBooks?) -> ()) {
+                            completion: @escaping (UpbitOrderBooks?, Error?) -> ()) {
         get(.quotation(.orderbook),
             query: ["markets": ticker.joined(separator: ",")]) { (data, error) in
             guard let data = data else {
-                completion(nil)
+                completion(nil, error)
                 return
             }
-            completion(try? UpbitOrderBooks(data: data))
+            completion(try? UpbitOrderBooks(data: data), error)
         }
     }
 }
 
 // MARK: - ExchangeAPI - Asset
 extension UpbitSwift {
-    open func getAccounts(completion: @escaping (UpbitAccounts?) -> ()) {
+    open func getAccounts(completion: @escaping (UpbitAccounts?, Error?) -> ()) {
         get(.exchange(.asset(.allAccounts))) { (data, error) in
             guard let data = data else {
-                completion(nil)
+                completion(nil, error)
                 return
             }
-            completion(try? UpbitAccounts(data: data))
+            completion(try? UpbitAccounts(data: data), error)
         }
     }
 }
@@ -238,20 +238,20 @@ extension UpbitSwift {
 // MARK: - ExchangeAPI - Exchange
 extension UpbitSwift {
     open func getOrdersChance(market ticker: String,
-                              completion: @escaping (UpbitOrdersChance?) -> ()) {
+                              completion: @escaping (UpbitOrdersChance?, Error?) -> ()) {
         get(.exchange(.order(.ordersChance)), query: ["market": ticker]) { (data, error) in
             guard let data = data else {
-                completion(nil)
+                completion(nil, error)
                 return
             }
-            completion(try? UpbitOrdersChance(data: data))
+            completion(try? UpbitOrdersChance(data: data), error)
         }
     }
     
     open func requestOrder(_ method: UpbitMethod,
                            uuid: String,
                            identifier: String = "",
-                           completion: @escaping (UpbitOrder?) -> ()) {
+                           completion: @escaping (UpbitOrder?, Error?) -> ()) {
         var parameter = ["uuid": uuid]
         if identifier != "" {
             parameter["identifier"] = identifier
@@ -263,19 +263,19 @@ extension UpbitSwift {
             get(.exchange(.order(.searchOrder)),
                 query: parameter) { (data, error) in
                 guard let data = data else {
-                    completion(nil)
+                    completion(nil, error)
                     return
                 }
-                completion(try? UpbitOrder(data: data))
+                completion(try? UpbitOrder(data: data), error)
             }
         case .delete:
             delete(.exchange(.order(.deleteOrder)),
                    query: parameter) { (data, error) in
                 guard let data = data else {
-                    completion(nil)
+                    completion(nil, error)
                     return
                 }
-                completion(try? UpbitOrder(data: data))
+                completion(try? UpbitOrder(data: data), error)
             }
         }
     }
@@ -288,7 +288,7 @@ extension UpbitSwift {
                         page: Int = 1,
                         limit: Int = 100,
                         orderBy: String = "desc",
-                        completion: @escaping (UpbitOrders?) -> ()) {
+                        completion: @escaping (UpbitOrders?, Error?) -> ()) {
         var arrayParameter = ["uuids[]": uuids]
         if states.isEmpty == false {
             arrayParameter["states[]"] = states
@@ -304,10 +304,10 @@ extension UpbitSwift {
                     "order_by": orderBy],
             arrayQuery: arrayParameter) { (data, error) in
             guard let data = data else {
-                completion(nil)
+                completion(nil, error)
                 return
             }
-            completion(try? UpbitOrders(data: data))
+            completion(try? UpbitOrders(data: data), error)
         }
     }
     
@@ -317,7 +317,7 @@ extension UpbitSwift {
                     price: String,
                     orderType: String,
                     identifier: String = "",
-                    completion: @escaping (UpbitOrder?) -> ()) {
+                    completion: @escaping (UpbitOrder?, Error?) -> ()) {
         var parameter = ["market": ticker,
                          "side": side,
                          "volume": volume,
@@ -328,10 +328,10 @@ extension UpbitSwift {
         }
         post(.exchange(.order(.order)), body: parameter) { (data, error) in
             guard let data = data else {
-                completion(nil)
+                completion(nil, error)
                 return
             }
-            completion(try? UpbitOrder(data: data))
+            completion(try? UpbitOrder(data: data), error)
         }
     }
 }
