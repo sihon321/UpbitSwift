@@ -138,7 +138,7 @@ dependencies: [
     }
 ```
 
-지정가 매도 시: volume, price 만 입력
+지정가 매도 시: volume, price 모두 입력
 ```swift
     let upSwift = UpbitSwift()
     let order = UpbitOrder()
