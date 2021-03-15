@@ -224,6 +224,8 @@ extension UpbitSwift {
 
 // MARK: - ExchangeAPI - Asset
 extension UpbitSwift {
+    
+    // 전체 계좌 조회
     open func getAccounts(completion: @escaping (UpbitAccounts?, Error?) -> ()) {
         get(.exchange(.asset(.allAccounts))) { (data, error) in
             guard let data = data else {
@@ -237,6 +239,8 @@ extension UpbitSwift {
 
 // MARK: - ExchangeAPI - Exchange
 extension UpbitSwift {
+    
+    // 주문 가능 정보
     open func getOrdersChance(market ticker: String,
                               completion: @escaping (UpbitOrdersChance?, Error?) -> ()) {
         get(.exchange(.order(.ordersChance)), query: ["market": ticker]) { (data, error) in
@@ -248,6 +252,7 @@ extension UpbitSwift {
         }
     }
     
+    // 개별 주문 조회, 주문 취소 접수
     open func requestOrder(_ method: UpbitMethod,
                            uuid: String,
                            identifier: String = "",
@@ -259,7 +264,6 @@ extension UpbitSwift {
         
         switch method {
         case .get:
-            
             get(.exchange(.order(.searchOrder)),
                 query: parameter) { (data, error) in
                 guard let data = data else {
@@ -280,6 +284,7 @@ extension UpbitSwift {
         }
     }
     
+    // 주문 리스트 조회
     open func getOrders(market ticker: String,
                         state: String,
                         states: [String] = [],
@@ -311,18 +316,28 @@ extension UpbitSwift {
         }
     }
     
-    open func order(market ticker: String,
-                    side: String,
-                    volume: String,
-                    price: String,
-                    orderType: String,
+    // 주문하기
+    open func order(_ side: MarketPosition,
+                    market ticker: String,
+                    volume: String = "",
+                    price: String = "",
                     identifier: String = "",
                     completion: @escaping (UpbitOrder?, Error?) -> ()) {
         var parameter = ["market": ticker,
-                         "side": side,
-                         "volume": volume,
-                         "price": price,
-                         "ord_type": orderType]
+                         "side": side.rawValue]
+
+        if side == .buy && volume == "" && price != "" {
+            parameter["ord_type"] = "price"
+            parameter["price"] = price
+        } else if side == .sell && volume != "" && price == "" {
+            parameter["ord_type"] = "market"
+            parameter["volume"] = volume
+        } else if volume != "" && price != "" {
+            parameter["ord_type"] = "limit"
+            parameter["price"] = price
+            parameter["volume"] = volume
+        }
+
         if identifier != "" {
             parameter["identifier"] = identifier
         }

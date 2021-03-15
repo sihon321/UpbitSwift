@@ -49,6 +49,10 @@ extension OrderAPI {
     }
 }
 
+public enum MarketPosition: String {
+    case buy = "bid", sell = "ask"
+}
+
 public enum WithdrawAPI {
     case searchList, search, withdrawsChance, coin, krw
 }
