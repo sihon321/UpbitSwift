@@ -9,12 +9,12 @@ import Foundation
 
 // MARK: - UpbitTradeTick
 public struct UpbitTradeTick: Codable {
-    let market, tradeDateUTC, tradeTimeUTC: String
-    let timestamp: Int
-    let tradePrice, tradeVolume: Double
-    let prevClosingPrice, changePrice: Double
-    let askBid: String
-    let sequentialId: Int?
+    public let market, tradeDateUTC, tradeTimeUTC: String
+    public let timestamp: Int
+    public let tradePrice, tradeVolume: Double
+    public let prevClosingPrice, changePrice: Double
+    public let askBid: String
+    public let sequentialId: Int?
 
     enum CodingKeys: String, CodingKey {
         case market
@@ -31,11 +31,11 @@ public struct UpbitTradeTick: Codable {
 }
 
 extension UpbitTradeTick {
-    init(data: Data) throws {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(UpbitTradeTick.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
@@ -61,11 +61,11 @@ extension UpbitTradeTick {
 public typealias UpbitTradeTicks = [UpbitTradeTick]
 
 extension UpbitTradeTicks {
-    init(data: Data) throws {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(UpbitTradeTicks.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }

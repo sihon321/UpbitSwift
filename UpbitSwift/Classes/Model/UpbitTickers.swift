@@ -9,21 +9,22 @@ import Foundation
 
 // MARK: - UpbitTicker
 public struct UpbitTicker: Codable {
-    let market, tradeDate, tradeTime, tradeDateKst: String
-    let tradeTimeKst: String
-    let tradeTimestamp, openingPrice, highPrice, lowPrice: Int
-    let tradePrice, prevClosingPrice: Int
-    let change: String
-    let changePrice: Int
-    let changeRate: Double
-    let signedChangePrice: Int
-    let signedChangeRate, tradeVolume, accTradePrice, accTradePrice24H: Double
-    let accTradeVolume, accTradeVolume24H: Double
-    let highest52_WeekPrice: Int
-    let highest52_WeekDate: String
-    let lowest52_WeekPrice: Int
-    let lowest52_WeekDate: String
-    let timestamp: Int
+    public let market, tradeDate, tradeTime, tradeDateKst: String
+    public let tradeTimeKst: String
+    public let tradeTimestamp: Int
+    public let openingPrice, highPrice, lowPrice: Double
+    public let tradePrice, prevClosingPrice: Double
+    public let change: String
+    public let changePrice: Double
+    public let changeRate: Double
+    public let signedChangePrice: Double
+    public let signedChangeRate, tradeVolume, accTradePrice, accTradePrice24H: Double
+    public let accTradeVolume, accTradeVolume24H: Double
+    public let highest52_WeekPrice: Double
+    public let highest52_WeekDate: String
+    public let lowest52_WeekPrice: Double
+    public let lowest52_WeekDate: String
+    public let timestamp: Int
 
     enum CodingKeys: String, CodingKey {
         case market
@@ -56,11 +57,11 @@ public struct UpbitTicker: Codable {
 }
 
 extension UpbitTicker {
-    init(data: Data) throws {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(UpbitTicker.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
@@ -71,11 +72,11 @@ extension UpbitTicker {
 public typealias UpbitTickers = [UpbitTicker]
 
 extension UpbitTickers {
-    init(data: Data) throws {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(UpbitTickers.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }

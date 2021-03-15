@@ -9,12 +9,12 @@ import Foundation
 
 // MARK: - UpbitCandle
 public struct UpbitAccount: Codable {
-    let currency: String
-    let balance: String
-    let locked: String
-    let avgBuyPrice: String
-    let avgBuyPriceModified: Bool
-    let unitCurrency: String
+    public let currency: String
+    public let balance: String
+    public let locked: String
+    public let avgBuyPrice: String
+    public let avgBuyPriceModified: Bool
+    public let unitCurrency: String
     
     enum CodingKeys: String, CodingKey {
         case currency, balance, locked
@@ -25,7 +25,7 @@ public struct UpbitAccount: Codable {
 }
 
 extension UpbitAccount {
-    init(_ json: String?, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String?, using encoding: String.Encoding = .utf8) throws {
         guard let jsonString = json,
             let data = jsonString.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
@@ -33,7 +33,7 @@ extension UpbitAccount {
         try self.init(data: data)
     }
     
-    init(data: Data) throws {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(UpbitAccount.self, from: data)
     }
 }
@@ -41,7 +41,7 @@ extension UpbitAccount {
 public typealias UpbitAccounts = [UpbitAccount]
 
 extension UpbitAccounts {
-    init(_ json: String?, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String?, using encoding: String.Encoding = .utf8) throws {
         guard let jsonString = json,
             let data = jsonString.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
@@ -49,7 +49,7 @@ extension UpbitAccounts {
         try self.init(data: data)
     }
     
-    init(data: Data) throws {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(UpbitAccounts.self, from: data)
     }
 }

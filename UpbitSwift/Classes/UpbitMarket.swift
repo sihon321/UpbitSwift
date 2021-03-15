@@ -9,10 +9,10 @@ import Foundation
 
 // MARK: - UpbitMarket
 public struct UpbitMarket: Codable {
-    let market: String
-    let koreanName: String
-    let englishName: String
-    let marketWarning: String?
+    public let market: String
+    public let koreanName: String
+    public let englishName: String
+    public let marketWarning: String?
     
     enum CodingKeys: String, CodingKey {
         case market
@@ -39,15 +39,15 @@ extension UpbitMarket {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         market = try values.decode(String.self, forKey: .market)
-        koreanName = try values.decode(String.self, forKey: .market)
+        koreanName = try values.decode(String.self, forKey: .koreanName)
         englishName = try values.decode(String.self, forKey: .englishName)
         marketWarning = try values.decodeIfPresent(String.self, forKey: .marketWarning)
     }
 }
 
-public typealias UpbitMarkets = [UpbitMarket]
+public typealias UpbitMarketList = [UpbitMarket]
 
-extension UpbitMarkets {
+extension UpbitMarketList {
     init(_ json: String?, using encoding: String.Encoding = .utf8) throws {
         guard let jsonString = json,
             let data = jsonString.data(using: encoding) else {
@@ -57,6 +57,6 @@ extension UpbitMarkets {
     }
     
     init(data: Data) throws {
-        self = try JSONDecoder().decode(UpbitMarkets.self, from: data)
+        self = try JSONDecoder().decode(UpbitMarketList.self, from: data)
     }
 }

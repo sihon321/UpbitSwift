@@ -9,10 +9,10 @@ import Foundation
 
 // MARK: - OrdersChance
 public struct UpbitOrdersChance: Codable {
-    let bidFee, askFee: String
-    let makerBidFee, makerAskFee: String
-    let market: UpbitOrderMarket
-    let bidAccount, askAccount: UpbitOrderAccount
+    public let bidFee, askFee: String
+    public let makerBidFee, makerAskFee: String
+    public let market: UpbitOrderMarket
+    public let bidAccount, askAccount: UpbitOrderAccount
 
     enum CodingKeys: String, CodingKey {
         case bidFee = "bid_fee"
@@ -26,11 +26,11 @@ public struct UpbitOrdersChance: Codable {
 }
 
 extension UpbitOrdersChance {
-    init(data: Data) throws {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(UpbitOrdersChance.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
@@ -40,9 +40,9 @@ extension UpbitOrdersChance {
 
 // MARK: - Account
 public struct UpbitOrderAccount: Codable {
-    let currency, balance, locked, avgBuyPrice: String
-    let avgBuyPriceModified: Bool
-    let unitCurrency: String
+    public let currency, balance, locked, avgBuyPrice: String
+    public let avgBuyPriceModified: Bool
+    public let unitCurrency: String
 
     enum CodingKeys: String, CodingKey {
         case currency, balance, locked
@@ -53,11 +53,11 @@ public struct UpbitOrderAccount: Codable {
 }
 
 extension UpbitOrderAccount {
-    init(data: Data) throws {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(UpbitOrderAccount.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
@@ -67,10 +67,10 @@ extension UpbitOrderAccount {
 
 // MARK: - UpbitOrderMarket
 public struct UpbitOrderMarket: Codable {
-    let id, name: String
-    let orderTypes, orderSides: [String]
-    let bid, ask: UpbitOrderAsk
-    let maxTotal, state: String
+    public let id, name: String
+    public let orderTypes, orderSides: [String]
+    public let bid, ask: UpbitOrderAsk
+    public let maxTotal, state: String
 
     enum CodingKeys: String, CodingKey {
         case id, name
@@ -83,11 +83,11 @@ public struct UpbitOrderMarket: Codable {
 }
 
 extension UpbitOrderMarket {
-    init(data: Data) throws {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(UpbitOrderMarket.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
@@ -97,9 +97,9 @@ extension UpbitOrderMarket {
 
 // MARK: - Ask
 public struct UpbitOrderAsk: Codable {
-    let currency: String
-    let priceUnit: String?
-    let minTotal: String
+    public let currency: String
+    public let priceUnit: String?
+    public let minTotal: String
 
     enum CodingKeys: String, CodingKey {
         case currency
@@ -111,11 +111,11 @@ public struct UpbitOrderAsk: Codable {
 // MARK: Ask convenience initializers and mutators
 
 extension UpbitOrderAsk {
-    init(data: Data) throws {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(UpbitOrderAsk.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }

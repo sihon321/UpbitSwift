@@ -144,14 +144,14 @@ open class UpbitSwift {
 
 // MARK: - QuotationAPI
 extension UpbitSwift {
-    open func searchMarketAll(isDetails: Bool,
-                              completion: @escaping (UpbitMarkets?, Error?) -> ()) {
+    open func getMarketAll(isDetails: Bool,
+                           completion: @escaping (UpbitMarketList?, Error?) -> ()) {
         get(.quotation(.marketAll)) { (data, error) in
             guard let data = data else {
                 completion(nil, error)
                 return
             }
-            completion(try? UpbitMarkets(data: data), error)
+            completion(try? UpbitMarketList(data: data), error)
         }
     }
     

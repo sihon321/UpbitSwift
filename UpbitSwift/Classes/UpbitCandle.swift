@@ -9,12 +9,12 @@ import Foundation
 
 // MARK: - UpbitCandle
 public struct UpbitCandle: Codable {
-    let market, candleDateTimeUTC, candleDateTimeKst: String
-    let openingPrice, highPrice, lowPrice, tradePrice: Int
-    let timestamp: Int
-    let candleAccTradePrice, candleAccTradeVolume: Double
-    let unit, changePrice: Int?
-    let changeRate: Double?
+    public let market, candleDateTimeUTC, candleDateTimeKst: String
+    public let openingPrice, highPrice, lowPrice, tradePrice: Int
+    public let timestamp: Int
+    public let candleAccTradePrice, candleAccTradeVolume: Double
+    public let unit, changePrice: Int?
+    public let changeRate: Double?
 
     enum CodingKeys: String, CodingKey {
         case market
@@ -34,11 +34,11 @@ public struct UpbitCandle: Codable {
 }
 
 extension UpbitCandle {
-    init(data: Data) throws {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(UpbitCandle.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
@@ -67,7 +67,7 @@ extension UpbitCandle {
 public typealias UpbitCandles = [UpbitCandle]
 
 extension UpbitCandles {
-    init(_ json: String?, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String?, using encoding: String.Encoding = .utf8) throws {
         guard let jsonString = json,
             let data = jsonString.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
@@ -75,7 +75,7 @@ extension UpbitCandles {
         try self.init(data: data)
     }
     
-    init(data: Data) throws {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(UpbitCandles.self, from: data)
     }
 }

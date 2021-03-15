@@ -7,10 +7,10 @@
 
 // MARK: - UpbitOrderBook
 public struct UpbitOrderBook: Codable {
-    let market: String
-    let timestamp: Int
-    let totalAskSize, totalBidSize: Double
-    let orderbookUnits: [OrderbookUnit]
+    public let market: String
+    public let timestamp: Int
+    public let totalAskSize, totalBidSize: Double
+    public let orderbookUnits: [OrderbookUnit]
 
     enum CodingKeys: String, CodingKey {
         case market, timestamp
@@ -21,11 +21,11 @@ public struct UpbitOrderBook: Codable {
 }
 
 extension UpbitOrderBook {
-    init(data: Data) throws {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(UpbitOrderBook.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
@@ -35,8 +35,8 @@ extension UpbitOrderBook {
 
 // MARK: - OrderbookUnit
 public struct OrderbookUnit: Codable {
-    let askPrice, bidPrice: Int
-    let askSize, bidSize: Double
+    public let askPrice, bidPrice: Int
+    public let askSize, bidSize: Double
 
     enum CodingKeys: String, CodingKey {
         case askPrice = "ask_price"
@@ -47,11 +47,11 @@ public struct OrderbookUnit: Codable {
 }
 
 extension OrderbookUnit {
-    init(data: Data) throws {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(OrderbookUnit.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
@@ -62,11 +62,11 @@ extension OrderbookUnit {
 public typealias UpbitOrderBooks = [UpbitOrderBook]
 
 extension UpbitOrderBooks {
-    init(data: Data) throws {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(UpbitOrderBooks.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }

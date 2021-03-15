@@ -9,14 +9,14 @@ import Foundation
 
 // MARK: - UpbitOrder
 public struct UpbitOrder: Codable {
-    let uuid, side, ordType, price: String
-    let avgPrice: String?
-    let state, market: String
-    let createdAt: String
-    let volume, remainingVolume, reservedFee, remainingFee: String
-    let paidFee, locked, executedVolume: String
-    let tradesCount: Int
-    let trades: [UpbitTrade]?
+    public let uuid, side, ordType, price: String
+    public let avgPrice: String?
+    public let state, market: String
+    public let createdAt: String
+    public let volume, remainingVolume, reservedFee, remainingFee: String
+    public let paidFee, locked, executedVolume: String
+    public let tradesCount: Int
+    public let trades: [UpbitTrade]?
 
     enum CodingKeys: String, CodingKey {
         case uuid, side
@@ -61,11 +61,11 @@ public struct UpbitOrder: Codable {
 // MARK: UpbitOrder convenience initializers and mutators
 
 extension UpbitOrder {
-    init(data: Data) throws {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(UpbitOrder.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
@@ -75,19 +75,19 @@ extension UpbitOrder {
 }
 
 // MARK: - Trade
-struct UpbitTrade: Codable {
-    let market, uuid, price, volume: String
-    let funds, side: String
+public struct UpbitTrade: Codable {
+    public let market, uuid, price, volume: String
+    public let funds, side: String
 }
 
 // MARK: Trade convenience initializers and mutators
 
 extension UpbitTrade {
-    init(data: Data) throws {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(UpbitTrade.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
@@ -98,11 +98,11 @@ extension UpbitTrade {
 public typealias UpbitOrders = [UpbitOrder]
 
 extension UpbitOrders {
-    init(data: Data) throws {
+    public init(data: Data) throws {
         self = try JSONDecoder().decode(UpbitOrders.self, from: data)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    public init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
