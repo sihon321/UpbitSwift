@@ -9,6 +9,8 @@ Swift Wrapper For Upbit API
 
 ## Example
 
+<img src = "https://user-images.githubusercontent.com/12742588/111182826-a6166f00-85f2-11eb-9b09-3b1773792daf.png" width="200px"> <img src = "https://user-images.githubusercontent.com/12742588/111182724-897a3700-85f2-11eb-8c03-3af7b336dabd.png" width="200px"> 
+
 To run the example SwiftUI project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Requirements
@@ -49,6 +51,8 @@ dependencies: [
     }
 ```
 - 시세 캔들 조회
+
+캔들 조회는 getCandle() 함수 하나로 정의 할수 있습니다. 각 캔들은 enum으로 되어있고 원하는 캔들을 선택하시면 됩니다.
 ```swift
     let upSwift = UpbitSwift()
     let candles = UpbitCandles()
@@ -81,7 +85,6 @@ dependencies: [
     }
 ```
 
-캔들 조회는 getCandle() 함수 하나로 정의 할수 있습니다. 각 캔들은 enum으로 되어있고 원하는 캔들을 선택하시면 됩니다.
     
 - 시세 Ticker 조회
 
