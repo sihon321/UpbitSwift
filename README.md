@@ -108,6 +108,8 @@ dependencies: [
 ```
 
 - 개별 주문 조회, 주문 취소 접수
+
+주문 취소 접수 시 method를 delete로 변경하면 됩니다.
 ```swift
     let upSwift = UpbitSwift()
     let order = UpbitOrder()
@@ -116,7 +118,6 @@ dependencies: [
         self.order = order
     }
 ```
-    주문 취소 접수 시 method를 delete로 변경하면 됩니다.
     
 - 주문 하기
 
