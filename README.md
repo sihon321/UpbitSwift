@@ -100,7 +100,7 @@ dependencies: [
 
 - 전체 계좌 조회
 ```swift
-    let upSwift = UpbitSwift()
+    let upSwift = UpbitSwift(accessKey: "accessKey", secretKey: "secretKey")
     let accounts = UpbitAccounts()
     upbitSwift.getAccounts() { accounts, error in
         self.accounts = accounts
@@ -111,7 +111,7 @@ dependencies: [
 
 주문 취소 접수 시 method를 delete로 변경하면 됩니다.
 ```swift
-    let upSwift = UpbitSwift()
+    let upSwift = UpbitSwift(accessKey: "accessKey", secretKey: "secretKey")
     let order = UpbitOrder()
     upbitSwift.requestOrder(.get, 
                             uuid: "5b72488b-fa82-4012-a9a4-7093cd529a16") { order, error in
@@ -123,7 +123,7 @@ dependencies: [
 
 지정가 매수 시: volume, price 모두 입력
 ```swift
-    let upSwift = UpbitSwift()
+    let upSwift = UpbitSwift(accessKey: "accessKey", secretKey: "secretKey")
     let order = UpbitOrder()
     upbitSwift.order(.buy, market: "KRW-BTC", volume: "0.001", price: "1000.0") { order, error in
         self.order = order
@@ -132,7 +132,7 @@ dependencies: [
 
 시장가 매수 시: price 만 입력
 ```swift
-    let upSwift = UpbitSwift()
+    let upSwift = UpbitSwift(accessKey: "accessKey", secretKey: "secretKey")
     let order = UpbitOrder()
     upbitSwift.order(.buy, market: "KRW-BTC", price: "1000.0") { order, error in
         self.order = order
@@ -141,7 +141,7 @@ dependencies: [
 
 지정가 매도 시: volume, price 모두 입력
 ```swift
-    let upSwift = UpbitSwift()
+    let upSwift = UpbitSwift(accessKey: "accessKey", secretKey: "secretKey")
     let order = UpbitOrder()
     upbitSwift.order(.sell, market: "KRW-BTC", volume: "0.001", price: "1000.0") { order, error in
         self.order = order
@@ -150,7 +150,7 @@ dependencies: [
 
 시장가 매도 시: volume 만 입력
 ```swift
-    let upSwift = UpbitSwift()
+    let upSwift = UpbitSwift(accessKey: "accessKey", secretKey: "secretKey")
     let order = UpbitOrder()
     upbitSwift.order(.sell, market: "KRW-BTC", volume: "0.001") { order, error in
         self.order = order
