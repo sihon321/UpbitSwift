@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'UpbitSwift'
-  s.version          = '0.1.1'
+  s.version          = '0.1.2'
   s.summary          = 'A short description of UpbitSwift.'
 
 # This description is used to generate tags and improve search results.
@@ -30,7 +30,7 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = "11.0"
 
-  s.source_files = 'UpbitSwift/Classes/**/*'
+  s.source_files = 'Sources/UpbitSwift/Classes/**/*'
   
   # s.resource_bundles = {
   #   'UpbitSwift' => ['UpbitSwift/Assets/*.png']
