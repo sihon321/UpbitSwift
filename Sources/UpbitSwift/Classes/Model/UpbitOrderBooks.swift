@@ -5,6 +5,8 @@
 //  Created by ocean on 2021/03/13.
 //
 
+import Foundation
+
 // MARK: - UpbitOrderBook
 public struct UpbitOrderBook: Codable {
     public let market: String
