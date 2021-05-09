@@ -46,8 +46,13 @@ dependencies: [
     let upSwift = UpbitSwift()
     let marketList = UpbitMarketList()
     
-    upSwift.getMarketAll(isDetails: false) { (marketList, error) in
+    upSwift.getMarketAll(isDetails: false) { result in
+        switch result {
+        case .success(let marketList):
             self.marketList = marketList
+        case .failure(let error):
+            print(error.failureReason ?? "Not found error")
+        }
     }
 ```
 - 시세 캔들 조회
@@ -56,8 +61,13 @@ dependencies: [
 ```swift
     let upSwift = UpbitSwift()
     let candles = UpbitCandles()
-    upbitSwift.getCandle(.minute(.one), market: "KRW-BTC") { candles, error in
-        self.candles = candles
+    upbitSwift.getCandle(.minute(.one), market: "KRW-BTC") { result in
+        switch result {
+        case .success(let candles):
+            self.candles = candles
+        case .failure(let error):
+            print(error.failureReason ?? "Not found error")
+        }
     }
 ```
 
@@ -91,8 +101,13 @@ dependencies: [
 ```swift
     let upSwift = UpbitSwift()
     let tickers = UpbitTickers()
-    upbitSwift.getTickers(market: ["KRW-BTC"]) { tickers, error in
-        self.tickers = tickers
+    upbitSwift.getTickers(market: ["KRW-BTC"]) { result in
+        switch result {
+        case .success(let tickers):
+            self.tickers = tickers
+        case .failure(let error):
+            print(error.failureReason ?? "Not found error")
+        }
     }
 ```
 
@@ -102,8 +117,13 @@ dependencies: [
 ```swift
     let upSwift = UpbitSwift(accessKey: "accessKey", secretKey: "secretKey")
     let accounts = UpbitAccounts()
-    upbitSwift.getAccounts() { accounts, error in
-        self.accounts = accounts
+    upbitSwift.getAccounts() { result in
+        switch result {
+        case .success(let accounts):
+            self.accounts = accounts
+        case .failure(let error):
+            print(error.failureReason ?? "Not found error")
+        }
     }
 ```
 
@@ -114,8 +134,13 @@ dependencies: [
     let upSwift = UpbitSwift(accessKey: "accessKey", secretKey: "secretKey")
     let order = UpbitOrder()
     upbitSwift.requestOrder(.get, 
-                            uuid: "5b72488b-fa82-4012-a9a4-7093cd529a16") { order, error in
-        self.order = order
+                            uuid: "5b72488b-fa82-4012-a9a4-7093cd529a16") { result in
+        switch result {
+        case .success(let order):
+            self.order = order
+        case .failure(let error):
+            print(error.failureReason ?? "Not found error")
+        }
     }
 ```
     
@@ -125,8 +150,13 @@ dependencies: [
 ```swift
     let upSwift = UpbitSwift(accessKey: "accessKey", secretKey: "secretKey")
     let order = UpbitOrder()
-    upbitSwift.order(.buy, market: "KRW-BTC", volume: "0.001", price: "1000.0") { order, error in
-        self.order = order
+    upbitSwift.order(.buy, market: "KRW-BTC", volume: "0.001", price: "1000.0") { result in
+        switch result {
+        case .success(let order):
+            self.order = order
+        case .failure(let error):
+            print(error.failureReason ?? "Not found error")
+        }
     }
 ```
 
@@ -134,8 +164,13 @@ dependencies: [
 ```swift
     let upSwift = UpbitSwift(accessKey: "accessKey", secretKey: "secretKey")
     let order = UpbitOrder()
-    upbitSwift.order(.buy, market: "KRW-BTC", price: "1000.0") { order, error in
-        self.order = order
+    upbitSwift.order(.buy, market: "KRW-BTC", price: "1000.0") { result in
+        switch result {
+        case .success(let order):
+            self.order = order
+        case .failure(let error):
+            print(error.failureReason ?? "Not found error")
+        }
     }
 ```
 
@@ -143,8 +178,13 @@ dependencies: [
 ```swift
     let upSwift = UpbitSwift(accessKey: "accessKey", secretKey: "secretKey")
     let order = UpbitOrder()
-    upbitSwift.order(.sell, market: "KRW-BTC", volume: "0.001", price: "1000.0") { order, error in
-        self.order = order
+    upbitSwift.order(.sell, market: "KRW-BTC", volume: "0.001", price: "1000.0") { result in
+        switch result {
+        case .success(let order):
+            self.order = order
+        case .failure(let error):
+            print(error.failureReason ?? "Not found error")
+        }
     }
 ```
 
@@ -152,8 +192,13 @@ dependencies: [
 ```swift
     let upSwift = UpbitSwift(accessKey: "accessKey", secretKey: "secretKey")
     let order = UpbitOrder()
-    upbitSwift.order(.sell, market: "KRW-BTC", volume: "0.001") { order, error in
-        self.order = order
+    upbitSwift.order(.sell, market: "KRW-BTC", volume: "0.001") { result in
+        switch result {
+        case .success(let order):
+            self.order = order
+        case .failure(let error):
+            print(error.failureReason ?? "Not found error")
+        }
     }
 ```
     
