@@ -40,9 +40,14 @@ struct ContentView: View {
             .navigationTitle("Upbit Market")
         }
         .onAppear() {
-            upbitSwift.getMarketAll(isDetails: false) { (data, error) in
-                if let marketList = data {
-                    self.marketList = marketList
+            upbitSwift.getMarketAll(isDetails: false) { result in
+                switch result {
+                case .success(let marketList):
+                    if let marketList = marketList {
+                        self.marketList = marketList
+                    }
+                case .failure(let error):
+                    print(error.failureReason ?? "Not found error")
                 }
             }
         }

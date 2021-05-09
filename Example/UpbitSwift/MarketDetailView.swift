@@ -69,15 +69,16 @@ struct MarketDetailView: View {
     }
     
     private func requestTicker(_ ticker: String) {
-        upbitSwift.getTickers(market: [ticker]) { (data, error) in
-            if let ticker = data?.first {
-                self.currentTicker = ticker
-                self.ratio = round(ticker.signedChangeRate * 10000) / 100
-                self.isBull = self.ratio > 0.0
-            }
-            
-            if error != nil {
-                print(error.debugDescription)
+        upbitSwift.getTickers(market: [ticker]) { result in
+            switch result {
+            case .success(let tickers):
+                if let ticker = tickers?.first {
+                    self.currentTicker = ticker
+                    self.ratio = round(ticker.signedChangeRate * 10000) / 100
+                    self.isBull = self.ratio > 0.0
+                }
+            case .failure(let error):
+                print(error.failureReason ?? "Not found error")
             }
         }
     }

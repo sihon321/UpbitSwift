@@ -13,7 +13,7 @@ open class UpbitSwift {
     
     func get(_ api: UpbitAPI,
              query parameter: [String: String]? = nil,
-             completion: @escaping (Data?, AFError?) -> ()) {
+             completion: @escaping (AFDataResponse<Data>) -> ()) {
         var components = URLComponents()
         components.queryItems = parameter?.map { URLQueryItem(name: $0, value: $1)}
         let queryHashAlg = components.query?.digest(using: .sha512) ?? ""
@@ -35,14 +35,14 @@ open class UpbitSwift {
         
         AF.request(api.baseURL + api.path, parameters: parameter, headers: headers)
             .responseData { response in
-                completion(response.data, response.error)
+                completion(response)
             }
     }
     
     func get(_ api: UpbitAPI,
              query parameter: [String: String],
              arrayQuery arrayParameter: [String: [String]],
-             completion: @escaping (Data?, AFError?) -> ()) {
+             completion: @escaping (AFDataResponse<Data>) -> ()) {
         guard accessKey != "", secretKey != "" else {
             return
         }
@@ -69,13 +69,13 @@ open class UpbitSwift {
         AF.request(api.baseURL + api.path + "?" + queryHashString,
                    headers: ["Authorization": authenticationToken])
             .responseData { response in
-                completion(response.data, response.error)
+                completion(response)
             }
     }
     
     func post(_ api: UpbitAPI,
               body parameter: [String: String],
-              completion: @escaping (Data?, AFError?) -> ()) {
+              completion: @escaping (AFDataResponse<Data>) -> ()) {
         guard accessKey != "", secretKey != "" else {
             return
         }
@@ -109,13 +109,13 @@ open class UpbitSwift {
         
         AF.request(request)
             .responseData { response in
-                completion(response.data, response.error)
+                completion(response)
             }
     }
     
     func delete(_ api: UpbitAPI,
                 query parameter: [String: String]? = nil,
-                completion: @escaping (Data?, AFError?) -> ()) {
+                completion: @escaping (AFDataResponse<Data>) -> ()) {
         guard accessKey != "", secretKey != "" else {
             return
         }
@@ -137,7 +137,7 @@ open class UpbitSwift {
         
         AF.request(api.baseURL + api.path, method: .delete, parameters: parameter, headers: headers)
             .responseData { response in
-                completion(response.data, response.error)
+                completion(response)
             }
     }
 }
@@ -145,13 +145,14 @@ open class UpbitSwift {
 // MARK: - QuotationAPI
 extension UpbitSwift {
     open func getMarketAll(isDetails: Bool,
-                           completion: @escaping (UpbitMarketList?, Error?) -> ()) {
-        get(.quotation(.marketAll)) { (data, error) in
-            guard let data = data else {
-                completion(nil, error)
-                return
+                           completion: @escaping (Result<UpbitMarketList?, AFError>) -> ()) {
+        get(.quotation(.marketAll)) { response in
+            switch response.result {
+            case .success(let data):
+                completion(.success(try? UpbitMarketList(data: data)))
+            case .failure(let error):
+                completion(.failure(error))
             }
-            completion(try? UpbitMarketList(data: data), error)
         }
     }
     
@@ -160,18 +161,19 @@ extension UpbitSwift {
                         to: String = "",
                         count: Int = 200,
                         convertingPriceUnit: String = "",
-                        completion: @escaping (UpbitCandles?, Error?) -> ()) {
+                        completion: @escaping (Result<UpbitCandles?, AFError>) -> ()) {
         var parameter = ["market": ticker, "to": to, "count": "\(count)"]
         if convertingPriceUnit != "" {
             parameter["convertingPriceUnit"] = convertingPriceUnit
         }
         get(.quotation(.candles(type)),
-            query: parameter) { (data, error) in
-            guard let data = data else {
-                completion(nil, error)
-                return
+            query: parameter) { response in
+            switch response.result {
+            case .success(let data):
+                completion(.success(try? UpbitCandles(data: data)))
+            case .failure(let error):
+                completion(.failure(error))
             }
-            completion(try? UpbitCandles(data: data), error)
         }
     }
     
@@ -180,7 +182,7 @@ extension UpbitSwift {
                              count: Int = 1,
                              cursor: String = "",
                              daysAgo: Int = 0,
-                             completion: @escaping (UpbitTradeTicks?, Error?) -> ()) {
+                             completion: @escaping (Result<UpbitTradeTicks?, AFError>) -> ()) {
         var parameter = ["market": ticker,
                          "to": to,
                          "count": "\(count)",
@@ -188,36 +190,40 @@ extension UpbitSwift {
         if daysAgo != 0 {
             parameter["daysAgo"] = "\(daysAgo)"
         }
-        get(.quotation(.tradesTicks), query: parameter) { (data, error) in
-            guard let data = data else {
-                completion(nil, error)
-                return
+        
+        get(.quotation(.tradesTicks), query: parameter) { response in
+            switch response.result {
+            case .success(let data):
+                completion(.success(try? UpbitTradeTicks(data: data)))
+            case .failure(let error):
+                completion(.failure(error))
             }
-            completion(try? UpbitTradeTicks(data: data), error)
         }
     }
     
     open func getTickers(market ticker: [String],
-                        completion: @escaping(UpbitTickers?, Error?) -> ()) {
+                        completion: @escaping(Result<UpbitTickers?, AFError>) -> ()) {
         get(.quotation(.ticker),
-            query: ["markets": ticker.joined(separator: ",")]) { (data, error) in
-            guard let data = data else {
-                completion(nil, error)
-                return
+            query: ["markets": ticker.joined(separator: ",")]) { response in
+            switch response.result {
+            case .success(let data):
+                completion(.success(try? UpbitTickers(data: data)))
+            case .failure(let error):
+                completion(.failure(error))
             }
-            completion(try? UpbitTickers(data: data), error)
         }
     }
     
     open func getOrderbooks(market ticker: [String],
-                            completion: @escaping (UpbitOrderBooks?, Error?) -> ()) {
+                            completion: @escaping (Result<UpbitOrderBooks?, AFError>) -> ()) {
         get(.quotation(.orderbook),
-            query: ["markets": ticker.joined(separator: ",")]) { (data, error) in
-            guard let data = data else {
-                completion(nil, error)
-                return
+            query: ["markets": ticker.joined(separator: ",")]) { response in
+            switch response.result {
+            case .success(let data):
+                completion(.success(try? UpbitOrderBooks(data: data)))
+            case .failure(let error):
+                completion(.failure(error))
             }
-            completion(try? UpbitOrderBooks(data: data), error)
         }
     }
 }
@@ -226,13 +232,14 @@ extension UpbitSwift {
 extension UpbitSwift {
     
     // 전체 계좌 조회
-    open func getAccounts(completion: @escaping (UpbitAccounts?, Error?) -> ()) {
-        get(.exchange(.asset(.allAccounts))) { (data, error) in
-            guard let data = data else {
-                completion(nil, error)
-                return
+    open func getAccounts(completion: @escaping (Result<UpbitAccounts?, AFError>) -> ()) {
+        get(.exchange(.asset(.allAccounts))) { response in
+            switch response.result {
+            case .success(let data):
+                completion(.success(try? UpbitAccounts(data: data)))
+            case .failure(let error):
+                completion(.failure(error))
             }
-            completion(try? UpbitAccounts(data: data), error)
         }
     }
 }
@@ -242,13 +249,14 @@ extension UpbitSwift {
     
     // 주문 가능 정보
     open func getOrdersChance(market ticker: String,
-                              completion: @escaping (UpbitOrdersChance?, Error?) -> ()) {
-        get(.exchange(.order(.ordersChance)), query: ["market": ticker]) { (data, error) in
-            guard let data = data else {
-                completion(nil, error)
-                return
+                              completion: @escaping (Result<UpbitOrdersChance?, AFError>) -> ()) {
+        get(.exchange(.order(.ordersChance)), query: ["market": ticker]) { response in
+            switch response.result {
+            case .success(let data):
+                completion(.success(try? UpbitOrdersChance(data: data)))
+            case .failure(let error):
+                completion(.failure(error))
             }
-            completion(try? UpbitOrdersChance(data: data), error)
         }
     }
     
@@ -256,7 +264,7 @@ extension UpbitSwift {
     open func requestOrder(_ method: UpbitMethod,
                            uuid: String,
                            identifier: String = "",
-                           completion: @escaping (UpbitOrder?, Error?) -> ()) {
+                           completion: @escaping (Result<UpbitOrder?, AFError>) -> ()) {
         var parameter = ["uuid": uuid]
         if identifier != "" {
             parameter["identifier"] = identifier
@@ -265,21 +273,23 @@ extension UpbitSwift {
         switch method {
         case .get:
             get(.exchange(.order(.searchOrder)),
-                query: parameter) { (data, error) in
-                guard let data = data else {
-                    completion(nil, error)
-                    return
+                query: parameter) { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(try? UpbitOrder(data: data)))
+                case .failure(let error):
+                    completion(.failure(error))
                 }
-                completion(try? UpbitOrder(data: data), error)
             }
         case .delete:
             delete(.exchange(.order(.deleteOrder)),
-                   query: parameter) { (data, error) in
-                guard let data = data else {
-                    completion(nil, error)
-                    return
+                   query: parameter) { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(try? UpbitOrder(data: data)))
+                case .failure(let error):
+                    completion(.failure(error))
                 }
-                completion(try? UpbitOrder(data: data), error)
             }
         }
     }
@@ -293,7 +303,7 @@ extension UpbitSwift {
                         page: Int = 1,
                         limit: Int = 100,
                         orderBy: String = "desc",
-                        completion: @escaping (UpbitOrders?, Error?) -> ()) {
+                        completion: @escaping (Result<UpbitOrders?, AFError>) -> ()) {
         var arrayParameter = ["uuids[]": uuids]
         if states.isEmpty == false {
             arrayParameter["states[]"] = states
@@ -307,12 +317,13 @@ extension UpbitSwift {
                     "page": "\(page)",
                     "limit": "\(limit)",
                     "order_by": orderBy],
-            arrayQuery: arrayParameter) { (data, error) in
-            guard let data = data else {
-                completion(nil, error)
-                return
+            arrayQuery: arrayParameter) { response in
+            switch response.result {
+            case .success(let data):
+                completion(.success(try? UpbitOrders(data: data)))
+            case .failure(let error):
+                completion(.failure(error))
             }
-            completion(try? UpbitOrders(data: data), error)
         }
     }
     
@@ -322,7 +333,7 @@ extension UpbitSwift {
                     volume: String = "",
                     price: String = "",
                     identifier: String = "",
-                    completion: @escaping (UpbitOrder?, Error?) -> ()) {
+                    completion: @escaping (Result<UpbitOrder?, AFError>) -> ()) {
         var parameter = ["market": ticker,
                          "side": side.rawValue]
 
@@ -341,12 +352,13 @@ extension UpbitSwift {
         if identifier != "" {
             parameter["identifier"] = identifier
         }
-        post(.exchange(.order(.order)), body: parameter) { (data, error) in
-            guard let data = data else {
-                completion(nil, error)
-                return
+        post(.exchange(.order(.order)), body: parameter) { response in
+            switch response.result {
+            case .success(let data):
+                completion(.success(try? UpbitOrder(data: data)))
+            case .failure(let error):
+                completion(.failure(error))
             }
-            completion(try? UpbitOrder(data: data), error)
         }
     }
 }
