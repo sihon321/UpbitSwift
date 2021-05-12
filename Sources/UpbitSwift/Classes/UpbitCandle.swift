@@ -10,7 +10,7 @@ import Foundation
 // MARK: - UpbitCandle
 public struct UpbitCandle: Codable {
     public let market, candleDateTimeUTC, candleDateTimeKst: String
-    public let openingPrice, highPrice, lowPrice, tradePrice: Int
+    public let openingPrice, highPrice, lowPrice, tradePrice: Double
     public let timestamp: Int
     public let candleAccTradePrice, candleAccTradeVolume: Double
     public let unit, changePrice: Int?
@@ -51,10 +51,10 @@ extension UpbitCandle {
         market = try values.decode(String.self, forKey: .market)
         candleDateTimeUTC = try values.decode(String.self, forKey: .candleDateTimeUTC)
         candleDateTimeKst = try values.decode(String.self, forKey: .candleDateTimeKst)
-        openingPrice = try values.decode(Int.self, forKey: .openingPrice)
-        highPrice = try values.decode(Int.self, forKey: .highPrice)
-        lowPrice = try values.decode(Int.self, forKey: .lowPrice)
-        tradePrice = try values.decode(Int.self, forKey: .tradePrice)
+        openingPrice = try values.decode(Double.self, forKey: .openingPrice)
+        highPrice = try values.decode(Double.self, forKey: .highPrice)
+        lowPrice = try values.decode(Double.self, forKey: .lowPrice)
+        tradePrice = try values.decode(Double.self, forKey: .tradePrice)
         timestamp = try values.decode(Int.self, forKey: .timestamp)
         candleAccTradePrice = try values.decode(Double.self, forKey: .candleAccTradePrice)
         candleAccTradeVolume = try values.decode(Double.self, forKey: .candleAccTradeVolume)
