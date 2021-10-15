@@ -44,8 +44,8 @@ public enum CandleType {
     case months
     
     init?(value: String,
-          minuteCandle: MinuteCandle? = nil,
-          hourCandle: HourCandle? = nil) {
+          minuteCandle: MinuteCandle? = .one,
+          hourCandle: HourCandle? = .one) {
         switch value {
         case "분":
             if let candle = minuteCandle {
