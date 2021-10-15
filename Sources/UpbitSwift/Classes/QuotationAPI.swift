@@ -43,9 +43,9 @@ public enum CandleType {
     case weeks
     case months
     
-    init?(value: String,
-          minuteCandle: MinuteCandle? = .one,
-          hourCandle: HourCandle? = .one) {
+    public init(value: String,
+                minuteCandle: MinuteCandle? = .one,
+                hourCandle: HourCandle? = .one) {
         switch value {
         case "분":
             if let candle = minuteCandle {
@@ -75,7 +75,7 @@ public enum MinuteCandle: Int {
     case fifteen = 15
     case thirty = 30
     
-    init?(value: String) {
+    public init(value: String) {
         switch value {
         case "1": self = .one
         case "3": self = .three
@@ -87,7 +87,7 @@ public enum MinuteCandle: Int {
         }
     }
     
-    init?(value: Int) {
+    public init(value: Int) {
         switch value {
         case 1: self = .one
         case 3: self = .three
@@ -104,7 +104,7 @@ public enum HourCandle: Int {
     case one = 60
     case four = 240
     
-    init?(value: String) {
+    public init(value: String) {
         switch value {
         case "60": self = .one
         case "240": self = .four
@@ -112,7 +112,7 @@ public enum HourCandle: Int {
         }
     }
     
-    init?(value: Int) {
+    public init(value: Int) {
         switch value {
         case 60: self = .one
         case 240: self = .four
