@@ -44,7 +44,7 @@ public enum CandleType {
     case months
     
     init?(value: String) {
-        switch num {
+        switch value {
         case "분"(let minute): self = .minute(minute)
         case "시"(let hour): self = .hour(hour)
         case "일": self = .days
@@ -64,7 +64,7 @@ public enum MinuteCandle: Int {
     case thirty = 30
     
     init?(value: String) {
-        switch num {
+        switch value {
         case "1": self = .one
         case "3": self = .three
         case "5": self = .five
@@ -76,7 +76,7 @@ public enum MinuteCandle: Int {
     }
     
     init?(value: Int) {
-        switch num {
+        switch value {
         case 1: self = .one
         case 3: self = .three
         case 5: self = .five
@@ -93,7 +93,7 @@ public enum HourCandle: Int {
     case four = 240
     
     init?(value: String) {
-        switch num {
+        switch value {
         case "60": self = .one
         case "240": self = .four
         default:    self = nil
@@ -101,7 +101,7 @@ public enum HourCandle: Int {
     }
     
     init?(value: Int) {
-        switch num {
+        switch value {
         case 60: self = .one
         case 240: self = .four
         default:    self = nil
